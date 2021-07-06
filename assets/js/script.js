@@ -24,11 +24,12 @@ class Books {
       this.bookTitle = document.getElementsByClassName('remove')[i].parentElement;
       document.getElementsByClassName('remove')[i].addEventListener('click', () => { this.removeBooks(this.bookTitle); });
     }
+    this.title = this.bookTitle.firstChild.innerText;
     return this.bookTitle;
   }
 
   removeBooks() {
-    this.title = this.getEl().firstChild.innerText;
+    
     Object.fromEntries(this.bookArray);
     localStorage.removeItem(this.title);
     this.bookArray = Object.entries(this.myStorage);
@@ -41,7 +42,7 @@ class Books {
 const book = new Books();
 book.addBooks();
 book.removeBooks();
-console.log(book.bookArray);
+
 
 
 

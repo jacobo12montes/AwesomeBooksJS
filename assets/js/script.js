@@ -1,30 +1,49 @@
-let bookArray = [];
-const html = [];
-const myStorage = window.localStorage;
-bookArray = Object.entries(myStorage);
+class Books {
+  constructor(){
+    this.html = [];
+    this.myStorage = window.localStorage;
+    this.bookArray = Object.entries(this.myStorage);
+  }
 
-// eslint-disable-next-line no-unused-vars
-function addBooks() {
-  const bookName = document.getElementById('name-book').value;
-  const bookAuthor = document.getElementById('author-book').value;
-  localStorage.setItem(bookName, bookAuthor);
+  addBooks() {
+    this.bookName = document.getElementById('name-book').value;
+    this.bookAuthor = document.getElementById('author-book').value;
+    localStorage.setItem(this.bookName, this.bookAuthor);
+    this.createHtml();
+  }
+
+  createHtml() {
+    this.bookArray.forEach(([key, value]) => {
+      this.html.push(`<div class='book'><p class='book-title'>${key}</p><p class='book-author'>${value}</p><button class='remove'>Remove</button><br><br></div>`);
+    });
+    document.getElementById('book-list').innerHTML = this.html.join(' ');
+  }
+
+  getEl() {
+    for (let i = 0; i < document.getElementsByClassName('remove').length; i += 1) {
+      this.bookTitle = document.getElementsByClassName('remove')[i].parentElement;
+      document.getElementsByClassName('remove')[i].addEventListener('click', () => { this.removeBooks(this.bookTitle); });
+    }
+    return this.bookTitle;
+  }
+
+  removeBooks() {
+    this.title = this.getEl().firstChild.innerText;
+    Object.fromEntries(this.bookArray);
+    localStorage.removeItem(this.title);
+    this.bookArray = Object.entries(this.myStorage);
+    this.getEl().remove();
+  }
+
+
 }
 
-function removeBooks(i) {
-  const title = i.firstChild.innerText;
-  Object.fromEntries(bookArray);
-  localStorage.removeItem(title);
-  bookArray = Object.entries(myStorage);
-  i.remove();
-}
+const book = new Books();
+book.addBooks();
+book.removeBooks();
+console.log(book.bookArray);
 
-bookArray.forEach(([key, value]) => {
-  html.push(`<div class='book'><p class='book-title'>${key}</p><p class='book-author'>${value}</p><button class='remove'>Remove</button><br><br></div>`);
-});
 
-document.getElementById('book-list').innerHTML = html.join(' ');
 
-for (let i = 0; i < document.getElementsByClassName('remove').length; i += 1) {
-  const bookTitle = document.getElementsByClassName('remove')[i].parentElement;
-  document.getElementsByClassName('remove')[i].addEventListener('click', () => { removeBooks(bookTitle); });
-}
+
+
